@@ -13,6 +13,7 @@ def filter_datum(fields: List[str], redaction: str,
             f'{i}={redaction}{separator}', message)
     return (message)
 
+
 class RedactingFormatter(logging.Formatter):
     """ Redacting Formatter class
         """
@@ -29,4 +30,4 @@ class RedactingFormatter(logging.Formatter):
         """ Filters values in incoming log records using filter_datum """
         record.msg = filter_datum(self.fields, self.REDACTION,
                     record.getMessage(), self.SEPARATOR)
-        return super(RedactingFormatter,self).format(record)
+        return super(RedactingFormatter, self).format(record)
