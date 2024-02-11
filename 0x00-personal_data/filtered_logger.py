@@ -5,7 +5,8 @@ from typing import List
 import logging
 import csv
 import sys
-
+import mysql.connector
+from os import environ
 
 # Define PII Fields
 PII_FIELDS = ('name', 'email', 'phone', 'ssn', 'ip')
@@ -51,3 +52,22 @@ def get_logger() -> logging.Logger:
 
     return logger
 
+
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    user_name = environ.get("PERSONAL_DATA_DB_USERNAME")
+    passwd = environ.get("PERSONAL_DATA_DB_PASSWORD")
+    host = environ.get("PERSONAL_DATA_DB_HOST")
+    db_name = environ.get("PERSONAL_DATA_DB_NAME")
+
+    connect = mysql.connector.connection.MySQLConnection(
+        # user="elwazeer",
+        # password="elwazeer",
+        # host="localhost",
+        # database="holberton"
+        user=user_name,
+        password=passwd,
+        host=host,
+        database=db_name
+    )
+
+    return connect
