@@ -54,6 +54,7 @@ def get_logger() -> logging.Logger:
 
 
 def get_db() -> mysql.connector.connection.MySQLConnection:
+    """Returns a connector to a MySQL database """
     user_name = environ.get("PERSONAL_DATA_DB_USERNAME", "root")
     passwd = environ.get("PERSONAL_DATA_DB_PASSWORD", "")
     host = environ.get("PERSONAL_DATA_DB_HOST", "localhost")
