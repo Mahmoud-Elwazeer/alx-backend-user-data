@@ -15,13 +15,13 @@ CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
 auth = None
 auth_type = getenv('AUTH_TYPE')
-if auth_type:
+if auth_type == "auth":
     from api.v1.auth.auth import Auth
     auth = Auth()
 
 
 @app.before_request
-def before_request_func():
+def before_request_func() -> str:
     """This function is only executed before each request
     """
     if auth is None:
@@ -31,7 +31,7 @@ def before_request_func():
             '/api/v1/unauthorized/', 
             '/api/v1/forbidden/'
         ]
-    if (auth.require_auth(request.path, excluded_paths) is None):
+    if not (auth.require_auth(request.path, excluded_paths)):
         return
     if (auth.authorization_header(request) is None):
         abort(401)
