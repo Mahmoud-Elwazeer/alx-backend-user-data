@@ -25,3 +25,4 @@ def is_valid(hashed_password: bytes, password: str) -> bool:
         valid = True
 
     return valid
+
