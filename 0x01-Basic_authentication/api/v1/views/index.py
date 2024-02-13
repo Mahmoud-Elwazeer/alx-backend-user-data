@@ -32,3 +32,12 @@ def unauthorized():
     """For testing this new error handler
     """
     abort(401)
+
+
+@app_views.route('/forbidden/', methods=['GET'], strict_slashes=False)
+@app_views.route('/forbidden', strict_slashes=False)
+def forbidden():
+    """for a request where the user is authenticate
+    but not allowed to access to a resourc
+    """
+    abort(403)
