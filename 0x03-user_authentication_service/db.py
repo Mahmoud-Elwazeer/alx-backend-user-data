@@ -45,6 +45,7 @@ class DB:
 
     def find_user_by(self, **kwargs) -> User:
         """returns the first row found in the users
+        Return : First row found in the users table as filtered by kwargs
         """
         if not kwargs:
             raise InvalidRequestError
