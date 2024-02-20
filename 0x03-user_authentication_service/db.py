@@ -37,7 +37,8 @@ class DB:
             email=email,
             hashed_password=hashed_password,
             session_id="",
-            reset_token="")
+            reset_token=""
+        )
         self._session.add(user)
         self._session.commit()
 
