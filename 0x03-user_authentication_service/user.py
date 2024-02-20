@@ -5,6 +5,7 @@ from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
+
 class User(Base):
     __tablename__ = 'users'
 
@@ -13,6 +14,3 @@ class User(Base):
     hashed_password = Column(VARCHAR(250), nullable=False)
     session_id = Column(VARCHAR(250), nullable=False)
     reset_token = Column(VARCHAR(250), nullable=False)
-
-    def __repr__(self) -> str:
-        return "email: {}".format(self.email)
