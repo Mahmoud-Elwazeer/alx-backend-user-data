@@ -8,6 +8,7 @@ from sqlalchemy.orm.session import Session
 from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
 from user import Base, User
+from typing import Dict
 
 
 class DB:
@@ -60,7 +61,7 @@ class DB:
             raise NoResultFound
         return find_user
 
-    def update_user(self, user_id: int, **kwargs) -> None:
+    def update_user(self, user_id: int, **kwargs: Dict[str, str| int]) -> None:
         if not kwargs:
             raise ValueError
 
@@ -73,5 +74,5 @@ class DB:
         user = self.find_user_by(id=user_id)
         for key, value in kwargs.items():
             setattr(user, key, value)
-        
+
         self._session.commit()
