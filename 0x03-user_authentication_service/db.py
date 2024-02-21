@@ -61,7 +61,10 @@ class DB:
             raise NoResultFound
         return find_user
 
-    def update_user(self, user_id: int, **kwargs: Dict[str, str| int]) -> None:
+    def update_user(self, user_id: int, **kwargs: Dict) -> None:
+        """pdate the user’s attributes as
+        passed in the method’s arguments then commit changes to the database.
+        """
         if not kwargs:
             raise ValueError
 
