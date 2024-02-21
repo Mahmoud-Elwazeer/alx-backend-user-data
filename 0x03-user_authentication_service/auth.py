@@ -27,8 +27,9 @@ class Auth:
         """ method using to register new user
         """
         if email is None or password is None:
-            raise Exception("Function take two argumets string (email, password)")
-        
+            raise Exception(
+                "Function take two argumets string (email, password)")
+
         try:
             user = self._db.find_user_by(email=email)
             raise ValueError("User {} already exists".format(email))
