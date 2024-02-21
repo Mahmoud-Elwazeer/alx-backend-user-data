@@ -68,14 +68,14 @@ class DB:
         if not kwargs:
             raise ValueError
 
+        user = self.find_user_by(id=user_id)
+
         user_keys = ['id', 'email', 'hashed_password', 'session_id',
                      'reset_token']
-        for key in kwargs.keys():
+        for key, value in kwargs.items():
             if key not in user_keys:
                 raise ValueError
-
-        user = self.find_user_by(id=user_id)
-        for key, value in kwargs.items():
-            setattr(user, key, value)
+            else:
+                setattr(user, key, value)
 
         self._session.commit()
