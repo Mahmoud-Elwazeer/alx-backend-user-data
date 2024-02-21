@@ -50,7 +50,7 @@ def login() -> str:
         session_id = auth.create_session(email)
         out = jsonify({"email": email, "message": "logged in"})
         out.set_cookie("session_id", session_id)
-        return out, 200
+        return out
 
     abort(401)
 
