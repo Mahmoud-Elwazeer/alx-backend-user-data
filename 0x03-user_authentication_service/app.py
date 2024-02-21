@@ -5,17 +5,18 @@ from flask import Flask, jsonify, request, abort
 from auth import Auth
 
 app = Flask(__name__)
+auth = Auth()
 
 
 @app.route('/', methods=['GET'], strict_slashes=False)
-def home():
+def home() -> str:
     """home route
     """
     return jsonify({"message": "Bienvenue"})
 
 
 @app.route('/users', methods=['POST'], strict_slashes=False)
-def register():
+def register() -> str:
     """registration route
     """
     email = request.form.get("email")
@@ -26,7 +27,6 @@ def register():
     if pwd is None:
         return jsonify({"error": "password missing"}), 400
 
-    auth = Auth()
     try:
         user = auth.register_user(email, pwd)
         return jsonify({"email": email, "message": "user created"})
@@ -35,18 +35,18 @@ def register():
 
 
 @app.route('/sessions', methods=['POST'], strict_slashes=False)
-def login():
+def login() -> str:
     """login route
     """
     email = request.form.get("email")
     if email is None:
-        abort(401)
+        abort(400)
 
     pwd = request.form.get("password")
     if pwd is None:
-        abort(401)
+        abort(400)
 
-    auth = Auth()
+    print(auth.valid_login(email, pwd))
     if auth.valid_login(email, pwd):
         session_id = auth.create_session(email)
         out = jsonify({"email": email, "message": "logged in"})
