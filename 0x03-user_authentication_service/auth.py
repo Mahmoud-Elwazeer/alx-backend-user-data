@@ -16,6 +16,16 @@ def _hash_password(password: str) -> bytes:
     return hash_pass
 
 
+def _check_password(password: str, hash: bytes) -> bool:
+    """checks a password against a hashed value
+    """
+    valid = False
+    byte = password.encode('utf-8')
+    if bcrypt.checkpw(byte, hash):
+        valid = True
+    return valid
+
+
 class Auth:
     """Auth class to interact with the authentication database.
     """
@@ -39,3 +49,14 @@ class Auth:
                 hashed_password=_hash_password(password)
                 )
             return user
+
+    def valid_login(self, email: str, password: str) -> bool:
+        """Credentials validation
+        """
+        try:
+            user = self._db.find_user_by(email=email)
+            result = _check_password(password, user.hashed_password)
+            return result
+
+        except Exception:
+            return False
