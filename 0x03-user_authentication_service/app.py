@@ -35,8 +35,8 @@ def register() -> str:
 
 
 @app.route('/sessions', methods=['POST'], strict_slashes=False)
-def login() -> str:
-    """login route
+def log_in() -> str:
+    """Logs in a user and returns session ID
     """
     email = request.form.get("email")
     if email is None:
