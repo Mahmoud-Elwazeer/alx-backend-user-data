@@ -38,12 +38,10 @@ def register() -> str:
 def log_in() -> str:
     """Logs in a user and returns session ID
     """
-    email = request.form.get("email")
-    if email is None:
-        abort(400)
-
-    pwd = request.form.get("password")
-    if pwd is None:
+    try:
+        email = request.form['email']
+        pwd = request.form['password']
+    except KeyError:
         abort(400)
 
     if auth.valid_login(email, pwd):
