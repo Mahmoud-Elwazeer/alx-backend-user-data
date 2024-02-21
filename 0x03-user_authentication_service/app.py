@@ -46,7 +46,6 @@ def login() -> str:
     if pwd is None:
         abort(400)
 
-    print(auth.valid_login(email, pwd))
     if auth.valid_login(email, pwd):
         session_id = auth.create_session(email)
         out = jsonify({"email": email, "message": "logged in"})
