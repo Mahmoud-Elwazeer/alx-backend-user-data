@@ -36,7 +36,7 @@ def register() -> str:
 
 
 @app.route('/sessions', methods=['POST'], strict_slashes=False)
-def login() -> str:
+def log_in() -> str:
     """Logs in a user and returns session ID
     """
     try:
