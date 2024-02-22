@@ -4,7 +4,6 @@
 from flask import Flask, jsonify, request, abort
 from flask import redirect, url_for
 from auth import Auth
-import requests
 
 app = Flask(__name__)
 auth = Auth()
@@ -56,7 +55,7 @@ def login() -> str:
 
 
 @app.route('/sessions', methods=['DELETE'], strict_slashes=False)
-def logout() -> str:
+def logout():
     """logout route
     """
     session_id = request.cookies.get("session_id", None)
