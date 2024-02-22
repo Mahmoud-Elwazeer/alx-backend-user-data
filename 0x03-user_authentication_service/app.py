@@ -40,8 +40,8 @@ def login() -> str:
     """Logs in a user and returns session ID
     """
     try:
-        email = request.form['email']
-        pwd = request.form['password']
+        email = request.form.get('email')
+        pwd = request.form.get('password')
     except KeyError:
         abort(400)
 
@@ -83,6 +83,13 @@ def profile() -> str:
         abort(403)
 
     return jsonify({"email": user.email}), 200
+
+
+@app.route('/reset_password', methods=['POST'], strict_slashes=False)
+def reset_pass():
+    email = request.form.get("email")
+    pass
+
 
 
 if __name__ == "__main__":
