@@ -45,13 +45,13 @@ def login() -> str:
     except KeyError:
         abort(400)
 
-    if auth.valid_login(email, pwd):
-        session_id = auth.create_session(email)
-        out = jsonify({"email": email, "message": "logged in"})
-        out.set_cookie("session_id", session_id)
-        return out
+    if not auth.valid_login(email, pwd):
+        abort(401)
 
-    abort(401)
+    session_id = auth.create_session(email)
+    out = jsonify({"email": email, "message": "logged in"})
+    out.set_cookie("session_id", session_id)
+    return out
 
 
 @app.route('/sessions', methods=['DELETE'], strict_slashes=False)

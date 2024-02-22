@@ -9,10 +9,12 @@ NEW_PASSWD = "t4rt1fl3tt3"
 
 
 def register_user(email: str, password: str) -> None:
+    """register new user
+    """
     url = "http://127.0.0.1:5000/users"
-    req = requests.post(url, data={'email': EMAIL, 'password': PASSWD })
+    req = requests.post(url, data={'email': EMAIL, 'password': PASSWD})
     try:
-        assert req.json() == { "email": EMAIL, "message": "user created" }
+        assert req.json() == {"email": EMAIL, "message": "user created"}
         assert req.status_code == 200
     except Exception:
         assert req.json() == {"message": "email already registered"}
@@ -20,11 +22,27 @@ def register_user(email: str, password: str) -> None:
 
 
 def log_in(email: str, password: str) -> str:
-    pass
+    """log in
+    """
+    url = "http://127.0.0.1:5000/sessions"
+    req = requests.post(url, data={'email': EMAIL, 'password': PASSWD})
+    try:
+        assert req.json() == {"email": EMAIL, "message": "logged in"}
+        assert req.status_code == 200
+    except Exception:
+        assert req.status_code == 401
 
 
 def log_in_wrong_password(email: str, password: str) -> None:
-    pass
+    """log in wrong password
+    """
+    url = "http://127.0.0.1:5000/sessions"
+    req = requests.post(url, data={'email': EMAIL, 'password': PASSWD})
+    try:
+        assert req.json() == {"email": EMAIL, "message": "logged in"}
+        assert req.status_code == 200
+    except Exception:
+        assert req.status_code == 401
 
 
 def profile_unlogged() -> None:
@@ -58,4 +76,3 @@ if __name__ == "__main__":
     reset_token = reset_password_token(EMAIL)
     update_password(EMAIL, reset_token, NEW_PASSWD)
     log_in(EMAIL, NEW_PASSWD)
-
