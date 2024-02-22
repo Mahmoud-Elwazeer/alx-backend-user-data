@@ -2,7 +2,9 @@
 """import modules
 """
 from flask import Flask, jsonify, request, abort
+from flask import redirect, url_for
 from auth import Auth
+import requests
 
 app = Flask(__name__)
 auth = Auth()
@@ -51,6 +53,18 @@ def login() -> str:
         return out
 
     abort(401)
+
+
+@app.route('/sessions', methods=['DELETE'], strict_slashes=False)
+def logout():
+    """logout route
+    """
+    try:
+        session_id = request.cookies.get("session_id")
+        auth.destroy_session(session_id)
+        return redirect('/')
+    except Exception:
+        abort(403)
 
 
 if __name__ == "__main__":
