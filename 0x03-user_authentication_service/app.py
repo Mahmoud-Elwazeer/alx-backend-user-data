@@ -6,7 +6,7 @@ from flask import redirect, url_for
 from auth import Auth
 
 app = Flask(__name__)
-auth = Auth()
+AUTH = Auth()
 
 
 @app.route('/', methods=['GET'], strict_slashes=False)
@@ -29,7 +29,7 @@ def register() -> str:
         return jsonify({"error": "password missing"}), 400
 
     try:
-        user = auth.register_user(email, pwd)
+        user = AUTH.register_user(email, pwd)
         return jsonify({"email": email, "message": "user created"})
     except ValueError:
         return jsonify({"message": "email already registered"}), 400
@@ -45,10 +45,10 @@ def login() -> str:
     except KeyError:
         abort(400)
 
-    if not auth.valid_login(email, pwd):
+    if not AUTH.valid_login(email, pwd):
         abort(401)
 
-    session_id = auth.create_session(email)
+    session_id = AUTH.create_session(email)
     out = jsonify({"email": email, "message": "logged in"})
     out.set_cookie("session_id", session_id)
     return out
@@ -62,11 +62,11 @@ def logout():
     if session_id is None:
         abort(403)
 
-    user = auth.get_user_from_session_id(session_id)
+    user = AUTH.get_user_from_session_id(session_id)
     if user is None:
         abort(403)
 
-    auth.destroy_session(user.id)
+    AUTH.destroy_session(user.id)
     return redirect('/')
 
 
@@ -78,7 +78,7 @@ def profile() -> str:
     if session_id is None:
         abort(403)
 
-    user = auth.get_user_from_session_id(session_id)
+    user = AUTH.get_user_from_session_id(session_id)
     if user is None:
         abort(403)
 
@@ -94,7 +94,7 @@ def reset_pass():
         abort(403)
 
     try:
-        reset_token = auth.get_reset_password_token(email)
+        reset_token = AUTH.get_reset_password_token(email)
         return jsonify({"email": email, "reset_token": reset_token})
     except ValueError:
         abort(403)
@@ -112,7 +112,7 @@ def update_password() -> str:
         abort(403)
 
     try:
-        auth.update_password(reset_token, new_password)
+        AUTH.update_password(reset_token, new_password)
         return jsonify({"email": email, "message": "Password updated"})
     except Exception:
         abort(403)
